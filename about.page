@@ -1,0 +1,52 @@
+---
+title: Hash Tag
+description: Embed tags in page content with hash tag style.
+icon: 'M5.41,21L6.12,17H2.12L2.47,15H6.47L7.53,9H3.53L3.88,7H7.88L8.59,3H10.59L9.88,7H15.88L16.59,3H18.59L17.88,7H21.88L21.53,9H17.53L16.47,15H20.47L20.12,17H16.12L15.41,21H13.41L14.12,17H8.12L7.41,21H5.41M9.53,9L8.47,15H14.47L15.53,9H9.53Z'
+author: Taufik Nurrohman
+type: Markdown
+version: 1.0.0
+
+use:
+  '.\lot\x\tag': 1
+...
+
+Type a `#` character in the page content followed by a tag name to turn it into a tag link automatically. The link text
+can be set based on the `key` value in `.\lot\x\hash\state.php` file:
+
+Key | Result
+--- | ------
+`hash` | Link text will be the `name` property of `Tag` class instance preceded by a `#` character. When you hover over it, the `title` property will appear in the tooltip.
+`title` | Link text will be the `title` property of `Tag` class instance. When you hover over it, the hash tag (the `name` property preceded by a `#` character) will appear in the tooltip.
+`*` | Where `*` is any string, link text will be the `*` property of `Tag` class instance.
+
+If the `key` value is a callable function name or an anonymous function, the value returned from it will be used to
+replace the hash tag pattern:
+
+~~~ .php
+<?php
+
+return [
+    'key' => function ($text) {
+        // In this context, `$this` refers to the `Tag` class instance
+        return '<a href="' . $this->url . '" rel="tag">' . $text . '</a>';
+    }
+];
+~~~
+
+If you want to set its value as a function name, make sure that it cannot possibly exist as a property name of a `Tag`
+class instance to prevent it from triggering a property call. You can ensure it in various ways, for example by creating
+a long and unique function name, or by creating a function name under a _namespace_. As long as a function name contains
+a `\` character, then there will be very less chance of it being detected as a property name.
+
+~~~ .php
+function name(string $text): string {
+    return '<mark>' . $text . '</mark>';
+}
+
+// This will most likely return the `$tag->name` value, not the return value of function `name()`
+return ['key' => 'name'];
+~~~
+
+Any hash tag pattern found in the HTML tag (as a tag name, attribute name or value) will be ignored. Any hash tag
+pattern found in the HTML content of `<code>`, `<kbd>`, `<pre>`, `<script>`, `<style>` and `<textarea>` will also be
+ignored.
