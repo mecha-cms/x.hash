@@ -29,7 +29,7 @@ replace the hash tag pattern:
 return [
     'key' => function ($text) {
         // In this context, `$this` refers to the `Tag` class instance
-        return '<a href="' . $this->url . '" rel="tag">' . $text . '</a>';
+        return '<a href="' . $this->link . '" rel="tag">' . $text . '</a>';
     }
 ];
 ~~~
