@@ -6,9 +6,6 @@ color: '#cf0af7'
 author: Taufik Nurrohman
 type: Markdown
 version: 1.0.0
-
-use:
-  '.\lot\x\tag': 1
 ...
 
 Type a `#` character in the page content followed by a tag name to turn it into a tag link automatically. The link text
