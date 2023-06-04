@@ -1,6 +1,6 @@
-<?php namespace x;
+<?php namespace x\hash\page;
 
-function hash($content) {
+function content($content) {
     if (!$content || !\is_string($content)) {
         return $content;
     }
@@ -8,12 +8,12 @@ function hash($content) {
         return $content;
     }
     $out = "";
-    $parts = \preg_split('/(<!--[\s\S]*?-->|' . (static function ($tags) {
-        foreach ($tags as &$tag) {
-            $tag = '<' . $tag . '(?:\s(?:"[^"]*"|\'[^\']*\'|[^\/>])*)?>[\s\S]*?<\/' . $tag . '>';
+    $parts = \preg_split('/(<!--[\s\S]*?-->|' . (static function ($parts) {
+        foreach ($parts as &$part) {
+            $part = '<' . \x($part) . '(?:\s(?:"[^"]*"|\'[^\']*\'|[^\/>])*)?>[\s\S]*?<\/' . \x($part) . '>';
         }
-        unset($tag);
-        return \implode('|', $tags);
+        unset($part);
+        return \implode('|', $parts);
     })([
         'pre',
         'code', // Must come after `pre`
@@ -54,7 +54,9 @@ function hash($content) {
     return $out;
 }
 
-\Hook::set([
-    'page.content',
-    'page.description'
-], __NAMESPACE__ . "\\hash", 2);
+function description($description) {
+    return \fire(__NAMESPACE__ . "\\content", [$description], $this);
+}
+
+\Hook::set('page.content', __NAMESPACE__ . "\\content", 2);
+\Hook::set('page.description', __NAMESPACE__ . "\\description", 2);
