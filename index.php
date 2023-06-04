@@ -1,6 +1,6 @@
-<?php namespace x\hash\page;
+<?php namespace x\hash;
 
-function content($content) {
+function page__content($content) {
     if (!$content || !\is_string($content)) {
         return $content;
     }
@@ -54,9 +54,9 @@ function content($content) {
     return $out;
 }
 
-function description($description) {
-    return \fire(__NAMESPACE__ . "\\content", [$description], $this);
+function page__description($description) {
+    return \fire(__NAMESPACE__ . "\\page__content", [$description], $this);
 }
 
-\Hook::set('page.content', __NAMESPACE__ . "\\content", 2);
-\Hook::set('page.description', __NAMESPACE__ . "\\description", 2);
+\Hook::set('page.content', __NAMESPACE__ . "\\page__content", 2);
+\Hook::set('page.description', __NAMESPACE__ . "\\page__description", 2);
