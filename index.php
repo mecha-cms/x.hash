@@ -58,5 +58,5 @@ function page__description($description) {
     return \fire(__NAMESPACE__ . "\\page__content", [$description], $this);
 }
 
-\Hook::set('page.content', __NAMESPACE__ . "\\page__content", 2);
-\Hook::set('page.description', __NAMESPACE__ . "\\page__description", 2);
+\Hook::set('page.content', __NAMESPACE__ . "\\page__content", 2.1);
+\Hook::set('page.description', __NAMESPACE__ . "\\page__description", 2.1);

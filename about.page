@@ -8,43 +8,43 @@ type: Markdown
 version: 1.0.0
 ...
 
-Type a `#` character in the page content followed by a tag name to turn it into a tag link automatically. The link text
-can be set based on the `key` value in `.\lot\x\hash\state.php` file:
+Type a `#` character in the page content followed by a tag name to automatically turn it into a tag link. The link text
+can be set based on the `key` value in the `.\lot\x\hash\state.php` file:
 
 Key | Result
 --- | ------
-`hash` | Link text will be the `name` property of `Tag` class instance preceded by a `#` character. When you hover over it, the `title` property will appear in the tooltip.
-`title` | Link text will be the `title` property of `Tag` class instance. When you hover over it, the hash tag (the `name` property preceded by a `#` character) will appear in the tooltip.
-`*` | Where `*` is any string, link text will be the `*` property of `Tag` class instance.
+`hash` | Link text will be the `name` property of the `Tag` class instance preceded by a `#` character. When you hover over it, the `title` property appears in the tooltip.
+`title` | Link text will be the `title` property of the `Tag` class instance. When you hover over it, the hash tag (the `name` property preceded by a `#` character) appears in the tooltip.
+`*` | Where `*` is any string, link text will be the `*` property of the `Tag` class instance.
 
-If the `key` value is a callable function name or an anonymous function, the value returned from it will be used to
+If the `key` value is a callable function name or an anonymous function, the value returned by that function is used to
 replace the hash tag pattern:
 
 ~~~ .php
 <?php
 
 return [
-    'key' => function ($text) {
-        // In this context, `$this` refers to the `Tag` class instance
+    'key' => function (string $text): string {
+        // In this context, `$this` refers to the instance of the `Tag` class
         return '<a href="' . $this->link . '" rel="tag">' . $text . '</a>';
     }
 ];
 ~~~
 
 If you want to set its value as a function name, make sure that it cannot possibly exist as a property name of a `Tag`
-class instance to prevent it from triggering a property call. You can ensure it in various ways, for example by creating
-a long and unique function name, or by creating a function name under a _namespace_. As long as a function name contains
-a `\` character, then there will be very less chance of it being detected as a property name.
+class instance, to prevent it from triggering a property call. You can do this in a number of ways, such as creating a
+long and unique function name, or creating a function name under a _namespace_. As long as a function name contains a
+`\` character, there is very little chance that it will be detected as a property name:
 
 ~~~ .php
 function name(string $text): string {
     return '<mark>' . $text . '</mark>';
 }
 
-// This will most likely return the `$tag->name` value, not the return value of function `name()`
+// This will most likely return the `$tag->name` value, not the return value of the `name()` function
 return ['key' => 'name'];
 ~~~
 
 Any hash tag pattern found in the HTML tag (as a tag name, attribute name or value) will be ignored. Any hash tag
-pattern found in the HTML content of `<code>`, `<kbd>`, `<pre>`, `<script>`, `<style>` and `<textarea>` will also be
+pattern found in the HTML content of `<code>`, `<kbd>`, `<pre>`, `<script>`, `<style>`, and `<textarea>` will also be
 ignored.
