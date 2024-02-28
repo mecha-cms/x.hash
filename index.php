@@ -10,7 +10,7 @@ function page__content($content) {
     $out = "";
     $parts = \preg_split('/(<!--[\s\S]*?-->|' . (static function ($parts) {
         foreach ($parts as &$part) {
-            $part = '<' . \x($part) . '(?:\s(?:"[^"]*"|\'[^\']*\'|[^\/>])*)?>[\s\S]*?<\/' . \x($part) . '>';
+            $part = '<' . \x($part) . '(?>\s(?>"[^"]*"|\'[^\']*\'|[^\/>])*)?>[\s\S]*?<\/' . \x($part) . '>';
         }
         unset($part);
         return \implode('|', $parts);

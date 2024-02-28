@@ -5,7 +5,7 @@ icon: 'M5.41,21L6.12,17H2.12L2.47,15H6.47L7.53,9H3.53L3.88,7H7.88L8.59,3H10.59L9
 color: '#cf0af7'
 author: Taufik Nurrohman
 type: Markdown
-version: 1.0.0
+version: 1.0.1
 ...
 
 Type a `#` character in the page content followed by a tag name to automatically turn it into a tag link. The link text
